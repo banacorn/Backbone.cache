@@ -1,0 +1,30 @@
+@import 'font-awesome.css';
+@font-face{font-family:'Tauri';font-style:normal;font-weight:400;src:local('Tauri Regular'),local('Tauri-Regular'),url("/fonts/Tauri.woff") format('woff')}
+@font-face{font-family:'UbuntuMono';font-style:normal;font-weight:400;src:local('Ubuntu Mono'),local('Ubuntu-Mono'),url("/fonts/UbuntuMono.woff") format('woff')}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-family:inherit;font-size:100%;vertical-align:baseline}
+body{line-height:1;color:#000;background:#fff}
+ol,ul{list-style:none}
+table{border-collapse:separate;border-spacing:0;vertical-align:middle}
+caption,th,td{text-align:left;font-weight:normal;vertical-align:middle}
+a img{border:none}
+html,body{height:100%;font-family:'Tauri'}
+nav,ol,ul{list-style:none}
+button{padding:0;margin:0;background:none;border:none;cursor:pointer}
+nav{position:fixed;width:80px;height:100%;background:#38383a;-webkit-box-shadow:1px 0 5px #000;box-shadow:1px 0 5px #000;}
+nav button{width:80px;height:80px;padding:10px;font-size:250%;color:#5f5f62;text-shadow:-1px -1px 1px #000;}
+nav button:hover{color:#fff;text-shadow:0 0 5px rgba(255,255,255,0.8)}
+article{height:100%;padding-left:80px}
+article > section{float:left;min-height:100%}
+article > section > header{height:80px;line-height:80px;background:rgba(0,0,0,0.2);text-shadow:-1px -1px 1px rgba(0,0,0,0.5);}
+article > section > header h2{font-size:200%;text-align:center;-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.5);box-shadow:0 1px 1px rgba(0,0,0,0.5)}
+#client{width:33%;background:#c0392b;}
+#client h2{color:#c0392b}
+#cache{width:34%;background:#f1c40f;}
+#cache h2{color:#f1c40f}
+#server{width:33%;background:#2980b9;}
+#server h2{color:#2980b9}
+.data{margin:10px;height:60px;line-height:60px;background:rgba(0,0,0,0.1);color:#fff;}
+.data .data-id{display:inline-block;float:left;width:60px;background:rgba(0,0,0,0.1);text-align:center}
+.data .data-name{display:inline-block;float:left;padding-left:30px}
+.data .data-remove{float:right;width:40px;height:40px;line-height:40px;margin:10px;text-align:center;color:rgba(255,255,255,0.1);font-size:200%;}
+.data .data-remove:hover{color:rgba(0,0,0,0.1)}

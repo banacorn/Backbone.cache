@@ -1,0 +1,154 @@
+@import 'nib'
+@import 'font-awesome.css'
+@import 'color'
+
+@font-face
+    font-family: 'Tauri'
+    font-style: normal
+    font-weight: 400
+    src: local('Tauri Regular'), local('Tauri-Regular'), url('/fonts/Tauri.woff') format('woff')
+
+@font-face
+    font-family: 'UbuntuMono'
+    font-style: normal
+    font-weight: 400
+    src: local('Ubuntu Mono'), local('Ubuntu-Mono'), url('/fonts/UbuntuMono.woff') format('woff')
+
+$turquoise = #1abc9c
+$greensea = #16a085
+$emerland = #2ecc71
+$nephritis = #27ae60
+$peterriver = #3498db
+$belizehole = #2980b9
+$amethyst = #9b59b6
+$wisteria = #8e44ad
+$wetasphalt = #34495e
+$midnightblue = #2c3e50
+$sunflower = #f1c40f
+$orange = #f39c12
+$carrot = #e67e22
+$pumpkin = #d35400
+$alizarin = #e74c3c
+$pomegranate = #c0392b
+$clouds = #ecf0f1
+$silver = #bdc3c7
+$concrete = #95a5a6
+$asbestos = #7f8c8d
+$basalt = #38383a
+
+global-reset()
+html5-reset()
+
+
+html
+body
+    height: 100%
+    font-family: 'Tauri'
+
+nav
+ol
+ul
+    list-style: none
+
+button
+    padding: 0
+    margin: 0
+    background: none
+    border: none
+    cursor: pointer
+
+nav
+    position: fixed
+    width: 80px
+    height: 100%
+    background: $basalt
+
+    box-shadow: 1px 0 5px black
+
+    button
+        width: 80px
+        height: 80px
+        padding: 10px
+        font-size: 250%
+        color: lighten($basalt, 20%)
+        text-shadow: -1px -1px 1px black
+        &:hover
+            color: white
+            text-shadow: 0 0 5px rgba(white, 0.8)
+
+article
+    height: 100%
+    padding-left: 80px
+article > section
+    float: left
+    min-height: 100%
+article > section > header
+    height: 80px
+    line-height: 80px
+    background: rgba(black, 0.2)
+    text-shadow: -1px -1px 1px rgba(black, 0.5)
+    h2 
+        font-size: 200%
+        text-align: center
+        box-shadow: 0 1px 1px rgba(black, 0.5)
+
+#client
+    width: 33%
+    background: $pomegranate
+    h2
+        color: $pomegranate
+#cache
+    width: 34%
+    background: $sunflower
+    h2
+        color: $sunflower
+#server
+    width: 33%
+    background: $belizehole    
+    h2
+        color: $belizehole
+
+//
+//
+//
+
+.data
+    
+    margin: 10px
+    height: 60px
+    line-height: 60px
+    background: rgba(black, 0.1)
+    color: white
+    .data-id
+        display: inline-block
+        float: left
+        width: 60px
+        background: rgba(black, 0.1)
+        text-align: center
+    .data-name
+        display: inline-block
+        float: left
+        padding-left: 30px
+    .data-remove
+        float: right
+        width: 40px
+        height: 40px
+        line-height: 40px
+        margin: 10px
+        text-align: center
+        color: rgba(white, 0.1)
+        font-size: 200%
+        &:hover
+            color: rgba(black, 0.1)
+    // float: left
+    // width: 100%
+    // margin: 10px
+
+    // border-radius: 4px
+
+    // background: rgba(black, 0.2)
+    // color: rgba(white, 0.2)
+
+
+
+
