@@ -104,33 +104,27 @@ article > section > header
         float: right
         text-shadow: -1px -1px 1px rgba(black, 0.5)
         margin: -70px 10px 0 0
+//
+//  slots
+//
+slot(color)
+    if (color == $sunflower)
+        width: 34%
+    else
+        width: 33%
+    background: color
+    button
+    h2
+        color: color
+    button:hover
+        color: lighten(color, 10%)
 
 #client
-    width: 33%
-    background: $pomegranate
-    button
-    h2
-        color: $pomegranate
-    button:hover
-        color: lighten($pomegranate, 10%)
-
+    slot($alizarin)
 #cache
-    width: 34%
-    background: $sunflower
-    button
-    h2
-        color: $sunflower
-    button:hover
-        color: lighten($sunflower, 10%)
+    slot($sunflower)
 #server
-    width: 33%
-    background: $belizehole    
-    button
-    h2
-        color: $belizehole
-    button:hover
-        color: lighten($belizehole, 10%)
-
+    slot($belizehole)
 //
 //
 //

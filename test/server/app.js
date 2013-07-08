@@ -39,7 +39,10 @@ for (var i = 0; i < 6; i++) {
 
 
 app.get('/data', function (req, res) {
-    res.json(data);
+    setTimeout(function () {
+        res.json(data);
+
+    }, 2000);
 });
 
 

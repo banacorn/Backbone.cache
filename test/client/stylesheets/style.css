@@ -19,9 +19,9 @@ article > section ul{padding-bottom:10px}
 article > section > header{height:80px;line-height:80px;background:rgba(0,0,0,0.2);text-shadow:-1px -1px 1px rgba(0,0,0,0.5);}
 article > section > header h2{font-size:200%;text-align:center;-webkit-box-shadow:0 1px 1px rgba(0,0,0,0.5);box-shadow:0 1px 1px rgba(0,0,0,0.5);text-transform:uppercase}
 article > section > header button{width:60px;height:60px;line-height:60px;text-align:center;font-size:200%;float:right;text-shadow:-1px -1px 1px rgba(0,0,0,0.5);margin:-70px 10px 0 0}
-#client{width:33%;background:#c0392b;}
-#client button,#client h2{color:#c0392b}
-#client button:hover{color:#d24435}
+#client{width:33%;background:#e74c3c;}
+#client button,#client h2{color:#e74c3c}
+#client button:hover{color:#e95e50}
 #cache{width:34%;background:#f1c40f;}
 #cache button,#cache h2{color:#f1c40f}
 #cache button:hover{color:#f2ca27}

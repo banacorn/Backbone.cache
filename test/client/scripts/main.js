@@ -18,9 +18,15 @@ require([
     'hogan',
     'io',
     'cache',
+    'view/nav',
+    'view/client',
+    'view/cache',
     'view/server'
 ], function (
     $, Backbone, Hogan, io, Cache,
+    NavView,
+    ClientView,
+    CacheView,
     ServerView
 ) {
 
@@ -28,11 +34,16 @@ require([
     
 
     var App = Backbone.View.extend({
-       
         initialize: function () {
+            var navView = new NavView;
+            var clientView = new ClientView;
+            var cacheView = new CacheView;
             var serverView = new ServerView({
                 socket: socket
             });
+            $('article').before(navView.el);
+            $('article').append(clientView.el);
+            $('article').append(cacheView.el);
             $('article').append(serverView.el);
         },
 
