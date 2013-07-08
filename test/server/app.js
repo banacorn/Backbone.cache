@@ -15,19 +15,28 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '../client')));
 
-var data = [{
-    id: 0,
-    name: 'A'
-}, {
-    id: 1,
-    name: 'B'
-}, {
-    id: 2,
-    name: 'C'
-}, {
-    id: 3,
-    name: 'D'
-}];
+
+var dataIndex = 1;
+var data = [];
+var dataName = function (index) {
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var name = "";
+    var i = index;
+    do {
+        name = characters[(i - 1) % 26] + name;
+        i = Math.floor((i - 1) / 26);
+    } while (i != 0);
+    return name;
+};
+
+for (var i = 0; i < 6; i++) {
+    data.push({
+        id: dataIndex,
+        name: dataName(dataIndex)
+    });
+    dataIndex++;
+}
+
 
 app.get('/data', function (req, res) {
     res.json(data);
@@ -43,7 +52,18 @@ io.on('connection', function (socket) {
         data = data.filter(function (model) {
             return model.id != id;
         });
-    })
+    });
+
+    socket.on('add', function () {
+        socket.emit(dataIndex);
+        var model = {
+            id: dataIndex,
+            name: dataName(dataIndex)
+        };
+        data.push(model);
+        dataIndex++;
+        socket.emit('add', model);
+    });
 });
 
 

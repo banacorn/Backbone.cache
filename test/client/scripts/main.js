@@ -33,7 +33,7 @@ require([
             var serverView = new ServerView({
                 socket: socket
             });
-            $('#server').append(serverView.el);
+            $('article').append(serverView.el);
         },
 
         // enables history api pushstate

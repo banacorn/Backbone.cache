@@ -82,6 +82,9 @@ article
 article > section
     float: left
     min-height: 100%
+    overflow: auto
+    ul
+        padding-bottom: 10px
 article > section > header
     height: 80px
     line-height: 80px
@@ -91,22 +94,42 @@ article > section > header
         font-size: 200%
         text-align: center
         box-shadow: 0 1px 1px rgba(black, 0.5)
+        text-transform: uppercase
+    button
+        width: 60px
+        height: 60px
+        line-height: 60px
+        text-align: center
+        font-size: 200%
+        float: right
+        text-shadow: -1px -1px 1px rgba(black, 0.5)
+        margin: -70px 10px 0 0
 
 #client
     width: 33%
     background: $pomegranate
+    button
     h2
         color: $pomegranate
+    button:hover
+        color: lighten($pomegranate, 10%)
+
 #cache
     width: 34%
     background: $sunflower
+    button
     h2
         color: $sunflower
+    button:hover
+        color: lighten($sunflower, 10%)
 #server
     width: 33%
     background: $belizehole    
+    button
     h2
         color: $belizehole
+    button:hover
+        color: lighten($belizehole, 10%)
 
 //
 //
