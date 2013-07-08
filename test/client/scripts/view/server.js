@@ -20,7 +20,6 @@ define([
             var socket = this.options.socket;
             var $el = this.$el;
             this.render();
-            socket.emit('get all');
             socket.on('get all', function (data) {
                 data.forEach(function (model) {
                     var dataModel = new DataModel(model);
@@ -39,6 +38,7 @@ define([
                 });
                 $('ul', $el).append(dataView.el);
             });
+            socket.emit('get all');
         },
 
         render: function () {
@@ -52,7 +52,6 @@ define([
         add: function () {
             this.options.socket.emit('add');
         }
-
     });
 
     return ServerView;

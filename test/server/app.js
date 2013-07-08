@@ -64,6 +64,16 @@ io.on('connection', function (socket) {
         dataIndex++;
         socket.emit('add', model);
     });
+
+    socket.on('modify', function (id) {
+        for (var i = 0, len = data.length; i < len; i++) {
+            if (data[i].id == id) {
+                data[i].name = data[i].name + '+';
+                break;
+            }
+        }
+    });
+
 });
 
 

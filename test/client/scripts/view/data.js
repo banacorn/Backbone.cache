@@ -12,7 +12,9 @@ define([
         className: 'data',
 
         events: {
-            'click .data-remove': 'delete'
+            'click .data-remove': 'delete',
+            'click': 'modify',
+            'click .data-id': 'select',
         },
 
         initialize: function () {
@@ -27,6 +29,16 @@ define([
         delete: function () {
             this.options.socket.emit('remove', this.model.id);
             this.remove();
+        },
+
+        select: function () {
+            return false;
+        },
+
+        modify: function () {
+            this.options.socket.emit('modify', this.model.id);
+            var name = $('.data-name', this.$el).text();
+            $('.data-name', this.$el).text(name + '+');
         }
 
     });
