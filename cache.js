@@ -24,8 +24,10 @@ define([
     // original Backbone.Sync
     Backbone.remoteSync = Backbone.sync;
 
-    // modified Backbone.Sync
+    // // modified Backbone.Sync
     Backbone.sync = function (method, model, options) {
+
+        // console.log(method, model, options);
 
         // localStorage support
         if (!localStorage) {
@@ -36,6 +38,4 @@ define([
         Backbone.remoteSync.apply(this, arguments);
         
     }
-
-    return "fuck";
 });

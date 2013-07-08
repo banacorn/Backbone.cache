@@ -12,7 +12,7 @@ define([
     var ClientView = Backbone.View.extend({
         template: Hogan.compile($$slot),
         events: {
-            'click #add-server-data': 'add'
+            'click #add-client-data': 'add'
         },
         tagName: 'section',
         id: 'client',
@@ -22,9 +22,16 @@ define([
             this.render();
 
             Backbone.on('fetch', function () {
-                console.log('fetch');
                 collection.fetch();
             });
+
+            Backbone.on('sync', function () {
+                collection.forEach(function (model) {
+                    if (model.isRaw())
+                        model.save();
+                });
+            });
+
             collection.on('add', function (model) {
                 Backbone.trigger('collection:add');
                 model.view = new DataView({
@@ -37,6 +44,7 @@ define([
                 model.view.remove();
                 console.log('remove', model.view);
             });
+
             collection.on('change', function (model) {
                 Backbone.trigger('collection:change');
                 model.view.render();
@@ -52,6 +60,13 @@ define([
         },
 
         add: function () {
+            var dataModel = new DataModel({
+                name: 'A' + Math.floor(Math.random() * 100000000)
+            });
+            var dataView = new DataView({
+                model: dataModel
+            });
+            this.collection.add(dataModel);
         }
     });
 

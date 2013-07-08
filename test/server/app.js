@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var EventEmitter = require('events').EventEmitter;
 
 var app = express();
 var server = require('http').createServer(app);
@@ -15,6 +16,7 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, '../client')));
 
+var tower = new EventEmitter;
 
 var dataIndex = 1;
 var data = [];
@@ -42,11 +44,33 @@ app.get('/data', function (req, res) {
     setTimeout(function () {
         res.json(data);
 
-    }, 2000);
+    }, 500);
 });
 
 
+
+app.post('/data', function (req, res) {
+    var model = {
+        id: dataIndex,
+        name: req.body.name
+    };
+    data.push(model);
+    res.json(model);
+    tower.emit('*', 'add', model);
+    dataIndex++;
+});
+
+
+
+
 io.on('connection', function (socket) {
+
+    tower.on('*', function (event, data) {
+        console.log(event, data);
+        socket.emit(event, data);
+    });
+
+
     socket.on('get all', function () {
         socket.emit('get all', data);
     });
@@ -58,7 +82,6 @@ io.on('connection', function (socket) {
     });
 
     socket.on('add', function () {
-        socket.emit(dataIndex);
         var model = {
             id: dataIndex,
             name: dataName(dataIndex)

@@ -11,7 +11,8 @@ define([
     var NavView = Backbone.View.extend({
         template: Hogan.compile($$nav),
         events: {
-            'click #fetch': 'fetch'
+            'click #fetch': 'fetch',
+            'click #sync': 'sync'
         },
         tagName: 'nav',
         initialize: function () {
@@ -25,6 +26,10 @@ define([
 
         fetch: function () {
             Backbone.trigger('fetch');
+        },
+
+        sync: function () {
+            Backbone.trigger('sync');
         }
     });
 
