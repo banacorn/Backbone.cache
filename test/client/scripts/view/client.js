@@ -59,7 +59,7 @@ define([
 
         add: function () {
             var dataModel = new DataModel({
-                name: 'A' + Math.floor(Math.random() * 100000000)
+                name: 'B-' + Math.floor(Math.random() * 100000000)
             });
             var dataView = new DataView({
                 model: dataModel

@@ -21,7 +21,7 @@ var tower = new EventEmitter;
 var genData = function () {
     return {
         id: Math.floor(Math.random() * 10000),
-        name: 'S' + Math.floor(Math.random() * 100000000)
+        name: 'S-' + Math.floor(Math.random() * 100000000)
     };
 };
 var data = [1, 1, 1, 1, 1, 1].map(genData);
@@ -33,24 +33,32 @@ var data = [1, 1, 1, 1, 1, 1].map(genData);
 app.get('/data', function (req, res) {
     setTimeout(function () {
         res.json(data);
-    }, 500);
+    }, 1000);
 });
 
 app.post('/data', function (req, res) {
-    var model = genData();
-    model.name = req.body.name;
-    data.push(model);
-    tower.emit('*', 'add', model);
-    res.json(model);
+    setTimeout(function () {
+        var model = genData();
+        model.name = req.body.name;
+        data.push(model);
+        tower.emit('*', 'add', model);
+        setTimeout(function () {
+            res.json(model);
+        }, 500)
+    }, 500);
 });
 
 app.delete('/data/:id', function (req, res) {
-    var id = req.params.id;
-    data = data.filter(function (model) {
-        return model.id != id;
-    });
-    tower.emit('*', 'remove', id);
-    res.send();
+    setTimeout(function () {
+        var id = req.params.id;
+        data = data.filter(function (model) {
+            return model.id != id;
+        });
+        tower.emit('*', 'remove', id);
+        setTimeout(function () {
+            res.send();
+        }, 500);
+    }, 500);
 });
 
 //
