@@ -46,8 +46,16 @@ define([
             });
             socket.on('remove', function (id) {
                 var model = collection.get(id);
-                collection.remove(model);
-                model.trigger('destroy');
+                if (model) {
+                    collection.remove(model);
+                    model.trigger('destroy');
+                }
+            });
+            socket.on('modify', function (data) {
+                var model = collection.get(data.id);
+                if (model) {
+                    model.set(data);
+                }
             });
             socket.emit('get all');
         },

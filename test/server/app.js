@@ -48,6 +48,21 @@ app.post('/data', function (req, res) {
     }, 500);
 });
 
+app.put('/data/:id', function (req, res) {
+    var id = req.params.id;
+    setTimeout(function () {
+        data.forEach(function (model, i) {
+            if (model.id == id) {
+                data[i] = req.body;
+            }
+        });
+        tower.emit('*', 'modify', req.body);
+        setTimeout(function () {
+            res.send();
+        }, 500);
+    }, 500);
+});
+
 app.delete('/data/:id', function (req, res) {
     setTimeout(function () {
         var id = req.params.id;
