@@ -29,7 +29,7 @@ article > section > header button{width:60px;height:60px;line-height:60px;text-a
 #server button,#server h2{color:#2980b9}
 #server button:hover{color:#2e90d0}
 .data{margin:10px;height:60px;line-height:60px;background:rgba(0,0,0,0.1);color:#fff;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
-.data .data-id{display:inline-block;float:left;width:60px;background:rgba(0,0,0,0.1);text-align:center}
+.data .data-id{display:inline-block;float:left;width:60px;height:60px;background:rgba(0,0,0,0.1);text-align:center}
 .data .data-name{display:inline-block;float:left;padding-left:30px}
 .data .data-remove{float:right;width:40px;height:40px;line-height:40px;margin:10px;text-align:center;color:rgba(255,255,255,0.1);font-size:200%;}
 .data .data-remove:hover{color:rgba(0,0,0,0.1)}

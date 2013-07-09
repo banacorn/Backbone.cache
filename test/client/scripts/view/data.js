@@ -18,7 +18,12 @@ define([
         },
 
         initialize: function () {
+            
+            var self = this;
             this.render();
+            this.listenTo(this.model, 'destroy', function () {
+                self.remove();
+            });
         },
 
         render: function () {
@@ -27,7 +32,10 @@ define([
         },
 
         delete: function () {
-            this.options.socket.emit('remove', this.model.id);
+            if (this.options.onServer)
+                this.options.socket.emit('remove', this.model.id);
+            else
+                this.model.destroy();
             this.remove();
         },
 
@@ -36,7 +44,8 @@ define([
         },
 
         modify: function () {
-            this.options.socket.emit('modify', this.model.id);
+            if (this.options.onServer)
+                this.options.socket.emit('modify', this.model.id);
             var name = $('.data-name', this.$el).text();
             $('.data-name', this.$el).text(name + '+');
         }

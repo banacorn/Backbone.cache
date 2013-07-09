@@ -18,58 +18,56 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 var tower = new EventEmitter;
 
-var dataIndex = 1;
-var data = [];
-var dataName = function (index) {
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    var name = "";
-    var i = index;
-    do {
-        name = characters[(i - 1) % 26] + name;
-        i = Math.floor((i - 1) / 26);
-    } while (i != 0);
-    return name;
+var genData = function () {
+    return {
+        id: Math.floor(Math.random() * 10000),
+        name: 'S' + Math.floor(Math.random() * 100000000)
+    };
 };
+var data = [1, 1, 1, 1, 1, 1].map(genData);
 
-for (var i = 0; i < 6; i++) {
-    data.push({
-        id: dataIndex,
-        name: dataName(dataIndex)
-    });
-    dataIndex++;
-}
-
+//
+//  HTTP
+//
 
 app.get('/data', function (req, res) {
     setTimeout(function () {
         res.json(data);
-
     }, 500);
 });
 
-
-
 app.post('/data', function (req, res) {
-    var model = {
-        id: dataIndex,
-        name: req.body.name
-    };
+    var model = genData();
+    model.name = req.body.name;
     data.push(model);
-    res.json(model);
     tower.emit('*', 'add', model);
-    dataIndex++;
+    res.json(model);
 });
 
+app.delete('/data/:id', function (req, res) {
+    var id = req.params.id;
+    data = data.filter(function (model) {
+        return model.id != id;
+    });
+    tower.emit('*', 'remove', id);
+    res.send();
+});
 
+//
+//  SOCKET
+//
 
+// console.log(EventEmitter);
+// console.log(EventEmitter.prototype);
 
 io.on('connection', function (socket) {
 
-    tower.on('*', function (event, data) {
+    var towerListener = function (event, data) {
         console.log(event, data);
         socket.emit(event, data);
-    });
+    };
 
+    tower.on('*', towerListener);
 
     socket.on('get all', function () {
         socket.emit('get all', data);
@@ -79,16 +77,15 @@ io.on('connection', function (socket) {
         data = data.filter(function (model) {
             return model.id != id;
         });
+        socket.emit('remove', id);
+        socket.broadcast.emit('remove', id);
     });
 
     socket.on('add', function () {
-        var model = {
-            id: dataIndex,
-            name: dataName(dataIndex)
-        };
+        var model = genData();
         data.push(model);
-        dataIndex++;
         socket.emit('add', model);
+        socket.broadcast.emit('add', model);
     });
 
     socket.on('modify', function (id) {
@@ -99,6 +96,10 @@ io.on('connection', function (socket) {
             }
         }
     });
+
+    socket.on('disconnect', function () {
+        tower.removeListener('*', towerListener);
+    })
 
 });
 

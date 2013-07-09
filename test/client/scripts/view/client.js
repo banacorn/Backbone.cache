@@ -42,13 +42,11 @@ define([
             collection.on('remove', function (model) {
                 Backbone.trigger('collection:remove');
                 model.view.remove();
-                console.log('remove', model.view);
             });
 
             collection.on('change', function (model) {
                 Backbone.trigger('collection:change');
                 model.view.render();
-                console.log('change', model.view);
             });
         },
 
