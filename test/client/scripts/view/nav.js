@@ -12,7 +12,9 @@ define([
         template: Hogan.compile($$nav),
         events: {
             'click #fetch': 'fetch',
-            'click #sync': 'sync'
+            'click #sync': 'sync',
+            'clear #refresh': 'refresh',
+            'clear #trash': 'trash'
         },
         tagName: 'nav',
         initialize: function () {
@@ -30,6 +32,14 @@ define([
 
         sync: function () {
             Backbone.trigger('sync');
+        },
+
+        refresh: function () {
+            Backbone.trigger('refresh');
+        },
+
+        trash: function () {
+            Backbone.trigger('trash');
         }
     });
 
