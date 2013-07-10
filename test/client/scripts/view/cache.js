@@ -17,6 +17,11 @@ define([
         tagName: 'section',
         id: 'cache',
         initialize: function () {
+
+            Backbone.on('trash', function () {
+                localStorage.clear();
+            });
+
             this.render();
         },
 
