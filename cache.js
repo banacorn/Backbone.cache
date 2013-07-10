@@ -27,12 +27,30 @@ define([
     // // modified Backbone.Sync
     Backbone.sync = function (method, model, options) {
 
-        // console.log(method, model, options);
+        var type = (model instanceof Backbone.Collection) ? 'collection' : 'model';
+
+        console.log(method, type);
 
         // localStorage support
         if (!localStorage) {
             Backbone.remoteSync.apply(this, arguments);
             return;
+        }
+
+        switch (method) {
+            case 'read':
+                if (type == 'model') {
+
+                } else {
+                    
+                }
+                break;
+            case 'create':
+                break;
+            case 'update':
+                break;
+            case 'delete':
+                break;
         }
 
         Backbone.remoteSync.apply(this, arguments);

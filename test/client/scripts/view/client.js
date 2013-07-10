@@ -32,21 +32,26 @@ define([
                 });
             });
 
+            Backbone.on('refresh', function () {
+                collection.forEach(function (model) {
+                    model.trigger('destroy');
+                })
+                collection.reset();
+            });
+
             collection.on('add', function (model) {
                 Backbone.trigger('collection:add');
-                model.view = new DataView({
+                var view = new DataView({
                     model: model
                 });
-                $('ul', self.$el).append(model.view.el);
+                $('ul', self.$el).append(view.el);
             });
             collection.on('remove', function (model) {
                 Backbone.trigger('collection:remove');
-                model.view.remove();
             });
 
             collection.on('change', function (model) {
                 Backbone.trigger('collection:change');
-                model.view.render();
             });
         },
 

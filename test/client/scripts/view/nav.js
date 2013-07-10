@@ -13,8 +13,8 @@ define([
         events: {
             'click #fetch': 'fetch',
             'click #sync': 'sync',
-            'clear #refresh': 'refresh',
-            'clear #trash': 'trash'
+            'click #refresh': 'refresh',
+            'click #trash': 'trash'
         },
         tagName: 'nav',
         initialize: function () {
