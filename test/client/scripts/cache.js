@@ -14,14 +14,14 @@ define([
             var data = localStorage[url];
             return data ? JSON.parse(localStorage[url]) : undefined;
         },
-        del: function (url) {
+        delete: function (url) {
             delete localStorage[url];
         },
         getCollection: function (url) {
-
-        },
-        getItem: function (url) {
-
+            var ids = localStorage[url] && JSON.parse(localStorage[url]) || [];
+            return ids.map(function (id) {
+                return JSON.parse(localStorage[url + '/' + id]);
+            });
         },
         setItem: function (url, data) {
             var anchor = url.lastIndexOf('/');
@@ -34,7 +34,7 @@ define([
                 localStorage[root] = JSON.stringify(stored);
             }
         },
-        delItem: function (url) {
+        deleteItem: function (url) {
 
         }
     };
@@ -66,12 +66,29 @@ define([
                 if (type == 'model') {
 
                 } else {
-                    var setItem = function (model) {
+                    collection.add(storage.getCollection(url));
+
+                    // var setItem = function (model) {
+                    //     console.log('set');
+                    //     storage.setItem(model.url(), model.attributes);  
+                    // };
+                    var onAdd = function (model) {
+                        storage.setItem(model.url(), model.attributes);
+                    };
+                    var onChange = function (model) {
                         storage.setItem(model.url(), model.attributes);  
                     };
-                    collection.on('add', setItem);
-                    collection.on('sync', function (model) {
-                        collection.off('add', setItem);
+                    var onRemove = function () {
+                        storage.deleteItem(model.url(), model.attributes);  
+                    };
+                    collection.on('add', onAdd);
+                    collection.on('change', onChange);
+                    collection.on('remove', onRemove);
+
+                    collection.once('sync', function () {
+                        collection.off('add', onAdd);
+                        collection.off('change', onChange);
+                        collection.off('remove', onRemove);
                     });
                 }
                 break;

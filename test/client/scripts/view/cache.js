@@ -49,13 +49,12 @@ define([
             });
 
             Backbone.on('cache:set', function (data) {
-                collection.add(data);
+                collection.add(data, {merge: true});
             });
 
             Backbone.on('cache:delete', function (id) {
                 var model = collection.get(id);
                 collection.remove(model);
-                console.log(collection.length);
             });
         },
 
