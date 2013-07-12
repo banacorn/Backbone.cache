@@ -5,6 +5,17 @@ define([
     
     var DEBUG = true;
 
+    var split = function (url) {
+        var anchor = url.lastIndexOf('/');
+        var root = url.substr(0, anchor);
+        var id = parseInt(url.substr(anchor + 1), 10);
+
+        return {
+            root: root,
+            id: id
+        };
+    }
+
     var storage = {
         set: function (url, data) {
             localStorage[url] = JSON.stringify(data);
@@ -16,6 +27,7 @@ define([
         },
         delete: function (url) {
             delete localStorage[url];
+            if (DEBUG) Backbone.trigger('cache:delete', split(url).id);
         },
         getCollection: function (url) {
             var ids = localStorage[url] && JSON.parse(localStorage[url]) || [];
@@ -24,9 +36,9 @@ define([
             });
         },
         setItem: function (url, data) {
-            var anchor = url.lastIndexOf('/');
-            var root = url.substr(0, anchor);
-            var id = parseInt(url.substr(anchor + 1), 10);
+            var splited = split(url);
+            var id = splited.id;
+            var root = splited.root;
             storage.set(url, data);
             stored = localStorage[root] && JSON.parse(localStorage[root]) || [];
             if (!_.contains(stored, id)) {
@@ -35,7 +47,11 @@ define([
             }
         },
         deleteItem: function (url) {
-
+            var splited = split(url);
+            var id = splited.id;
+            var root = splited.root;
+            localStorage[root] = JSON.stringify(_.without(JSON.parse(localStorage[root]), id))            
+            storage.delete(url);
         }
     };
 
@@ -78,12 +94,12 @@ define([
                     var onChange = function (model) {
                         storage.setItem(model.url(), model.attributes);  
                     };
-                    var onRemove = function () {
-                        storage.deleteItem(model.url(), model.attributes);  
+                    var onRemove = function (model, c, options) {
+                        storage.deleteItem(url + '/' + model.id);  
                     };
                     collection.on('add', onAdd);
                     collection.on('change', onChange);
-                    collection.on('remove', onRemove);
+                    collection.on('destroy', onRemove);
 
                     collection.once('sync', function () {
                         collection.off('add', onAdd);

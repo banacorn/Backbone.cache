@@ -30,7 +30,7 @@ define([
                 $('ul', $el).append(view.el);
             });
             collection.on('remove', function (model) {
-                console.log('remove')
+                model.trigger('destroy');
             });
 
             for (key in localStorage) {
