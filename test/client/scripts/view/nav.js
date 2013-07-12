@@ -13,8 +13,7 @@ define([
         events: {
             'click #fetch': 'fetch',
             'click #sync': 'sync',
-            'click #refresh': 'refresh',
-            'click #trash': 'trash'
+            'click #refresh': 'refresh'
         },
         tagName: 'nav',
         initialize: function () {
@@ -36,11 +35,8 @@ define([
 
         refresh: function () {
             Backbone.trigger('refresh');
-        },
-
-        trash: function () {
-            Backbone.trigger('trash');
         }
+
     });
 
     return NavView;

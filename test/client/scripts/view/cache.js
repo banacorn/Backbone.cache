@@ -12,7 +12,8 @@ define([
     var ServerView = Backbone.View.extend({
         template: Hogan.compile($$slot),
         events: {
-            'click #add-server-data': 'add'
+            'click #add-server-data': 'add',
+            'click #trash-cache': 'trash'
         },
         tagName: 'section',
         id: 'cache',
@@ -40,14 +41,6 @@ define([
                 }
             }
 
-            Backbone.on('trash', function () {
-                localStorage.clear();
-                collection.forEach(function (model) {
-                    model.trigger('destroy-view');
-                });
-                collection.reset();
-            });
-
             Backbone.on('cache:set', function (data) {
                 collection.add(data, {merge: true});
             });
@@ -60,12 +53,18 @@ define([
 
         render: function () {
             this.$el.html(this.template.render({
-                name: 'cache'
+                name: 'cache',
+                trash: true
             }));
             return this;    
         },
 
-        add: function () {
+        trash: function () {
+            localStorage.clear();
+            this.collection.forEach(function (model) {
+                model.trigger('destroy-view');
+            });
+            this.collection.reset();
         }
     });
 
