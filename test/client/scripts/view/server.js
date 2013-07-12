@@ -62,7 +62,8 @@ define([
 
         render: function () {
             this.$el.html(this.template.render({
-                name: 'server'
+                name: 'server',
+                add: 'true'
             }));
             return this;    
         },

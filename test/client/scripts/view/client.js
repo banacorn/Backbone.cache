@@ -55,7 +55,8 @@ define([
 
         render: function () {
             this.$el.html(this.template.render({
-                name: 'client'
+                name: 'client',
+                add: 'true'
             }));
             return this;    
         },
