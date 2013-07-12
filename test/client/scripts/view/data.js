@@ -22,6 +22,9 @@ define([
             var self = this;
             this.render();
             this
+                .listenTo(this.model, 'destroy-view', function () {
+                    self.remove();
+                })
                 .listenTo(this.model, 'destroy', function () {
                     self.remove();
                 })

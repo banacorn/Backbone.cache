@@ -30,7 +30,7 @@ define([
                 $('ul', $el).append(view.el);
             });
             collection.on('remove', function (model) {
-                model.trigger('destroy');
+                model.trigger('destroy', model, collection);
             });
 
             for (key in localStorage) {
@@ -43,7 +43,7 @@ define([
             Backbone.on('trash', function () {
                 localStorage.clear();
                 collection.forEach(function (model) {
-                    model.trigger('destroy');
+                    model.trigger('destroy', model, collection);
                 });
                 collection.reset();
             });

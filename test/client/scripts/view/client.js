@@ -39,10 +39,10 @@ define([
                 });
                 $('ul', self.$el).append(view.el);
             });
-            
+
             Backbone.on('refresh', function () {
                 collection.forEach(function (model) {
-                    model.trigger('destroy');
+                    model.trigger('destroy-view');
                 })
                 collection.reset();
             });
