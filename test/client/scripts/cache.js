@@ -110,8 +110,7 @@ define([
             case 'update':
                 break;
             case 'delete':
-                storage.deleteItem(url + '/' + model.id);  
-
+                storage.deleteItem(url);  
                 break;
         }
 
