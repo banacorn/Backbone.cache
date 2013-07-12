@@ -50,7 +50,8 @@ define([
             var splited = split(url);
             var id = splited.id;
             var root = splited.root;
-            localStorage[root] = JSON.stringify(_.without(JSON.parse(localStorage[root]), id))            
+            if (localStorage[root] !== undefined)
+                localStorage[root] = JSON.stringify(_.without(JSON.parse(localStorage[root]), id))            
             storage.delete(url);
         }
     };
