@@ -43,7 +43,7 @@ define([
             Backbone.on('trash', function () {
                 localStorage.clear();
                 collection.forEach(function (model) {
-                    model.trigger('destroy', model, collection);
+                    model.trigger('destroy-view');
                 });
                 collection.reset();
             });
