@@ -32,13 +32,6 @@ define([
                 });
             });
 
-            Backbone.on('refresh', function () {
-                collection.forEach(function (model) {
-                    model.trigger('destroy');
-                })
-                collection.reset();
-            });
-
             collection.on('add', function (model) {
                 var view = new DataView({
                     type: 'client',
@@ -46,6 +39,14 @@ define([
                 });
                 $('ul', self.$el).append(view.el);
             });
+            
+            Backbone.on('refresh', function () {
+                collection.forEach(function (model) {
+                    model.trigger('destroy');
+                })
+                collection.reset();
+            });
+
 
             collection.on('all', function (event) {
                 console.groupCollapsed(event);

@@ -3,11 +3,11 @@ define([
     'backbone',
     'hogan',
     '../model/data',
+    '../collection/data',
     '../view/data',
-    // '../collection/simulation',
     // '../view/simulationItem',
     'text!../../template/slot.html',
-], function ($, Backbone, Hogan, DataModel, DataView, $$slot) {
+], function ($, Backbone, Hogan, DataModel, DataCollection, DataView, $$slot) {
 
     var ServerView = Backbone.View.extend({
         template: Hogan.compile($$slot),
@@ -19,13 +19,10 @@ define([
         initialize: function () {
 
             var $el = this.$el;
+            var collection = this.collection = new DataCollection;
 
-            Backbone.on('trash', function () {
-                localStorage.clear();
-            });
-
-            Backbone.on('cache:set', function (data) {
-                var model = new DataModel(data);
+            collection.on('add', function (model) {
+                console.log(model);
                 var view = new DataView({
                     model: model,
                     type: 'cache'    
@@ -33,6 +30,13 @@ define([
                 $('ul', $el).append(view.el);
             });
 
+            Backbone.on('trash', function () {
+                localStorage.clear();
+            });
+
+            Backbone.on('cache:set', function (data) {
+                collection.add(data);
+            });
             this.render();
         },
 

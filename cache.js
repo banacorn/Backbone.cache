@@ -66,14 +66,13 @@ define([
                 if (type == 'model') {
 
                 } else {
-                    collection.on('add', function (model) {
-                        storage.setItem(model.url(), model.attributes);
-                        // console.log(model.url(), model.attributes)
-                        // collection.off('sync')
-                    });
+                    var setItem = function (model) {
+                        storage.setItem(model.url(), model.attributes);  
+                    };
+                    collection.on('add', setItem);
                     collection.on('sync', function (model) {
-                        collection.off('add');
-                        collection.off('sync');
+                        collection.off('add', setItem);
+                    //     collection.off('sync');
                     });
                     // storage.set
                 }
