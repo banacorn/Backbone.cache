@@ -86,6 +86,7 @@ define([
                     collection.add(storage.getCollection(url));
 
                     var onAdd = function (model) {
+                        console.log('bind')
                         storage.setItem(model.url(), model.attributes);
                     };
                     var onChange = function (model) {
@@ -100,7 +101,7 @@ define([
 
                     var self = this;
                     this.listenTo(collection, 'sync', function () {
-                        // console.dir(collection);
+                        self.stopListening();
                     });
                 }
                 break;
