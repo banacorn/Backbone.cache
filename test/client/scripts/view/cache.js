@@ -21,6 +21,7 @@ define([
             var $el = this.$el;
             var collection = this.collection = new DataCollection;
 
+            this.render();
             collection.on('add', function (model) {
                 var view = new DataView({
                     model: model,
@@ -28,9 +29,23 @@ define([
                 });
                 $('ul', $el).append(view.el);
             });
+            collection.on('remove', function (model) {
+                console.log('remove')
+            });
+
+            for (key in localStorage) {
+                if (/\/data\/\d/.test(key)) {
+                    var data = JSON.parse(localStorage[key]);
+                    collection.add(data);
+                }
+            }
 
             Backbone.on('trash', function () {
                 localStorage.clear();
+                collection.forEach(function (model) {
+                    model.trigger('destroy');
+                });
+                collection.reset();
             });
 
             Backbone.on('cache:set', function (data) {
@@ -42,7 +57,6 @@ define([
                 collection.remove(model);
                 console.log(collection.length);
             });
-            this.render();
         },
 
         render: function () {
