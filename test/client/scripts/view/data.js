@@ -44,10 +44,20 @@ define([
         },
 
         delete: function () {
-            if (this.options.type === 'server')
-                this.options.socket.emit('remove', this.model.id);
-            else
-                this.model.destroy();
+            switch (this.options.type) {
+                case 'client':
+                    this.model.destroy();
+                    break;
+                case 'cache':
+                    this.trigger('destroy');
+                    // localStorage dirty hack here
+                    localStorage['/data'] = JSON.stringify(_.without(JSON.parse(localStorage['/data']), this.model.attributes.id));
+                    delete localStorage['/data/' + this.model.attributes.id];
+                    break;
+                case 'server':
+                    this.options.socket.emit('remove', this.model.id);
+                    break;
+            }
             this.remove();
         },
 

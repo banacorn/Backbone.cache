@@ -27,7 +27,8 @@ define([
             Backbone.on('cache:set', function (data) {
                 var model = new DataModel(data);
                 var view = new DataView({
-                    model: model
+                    model: model,
+                    type: 'cache'    
                 });
                 $('ul', $el).append(view.el);
             });
