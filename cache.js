@@ -85,10 +85,6 @@ define([
                 } else {
                     collection.add(storage.getCollection(url));
 
-                    // var setItem = function (model) {
-                    //     console.log('set');
-                    //     storage.setItem(model.url(), model.attributes);  
-                    // };
                     var onAdd = function (model) {
                         storage.setItem(model.url(), model.attributes);
                     };
@@ -98,14 +94,13 @@ define([
                     var onRemove = function (model, c, options) {
                         storage.deleteItem(url + '/' + model.id);  
                     };
-                    collection.on('add', onAdd);
-                    collection.on('change', onChange);
-                    collection.on('destroy', onRemove);
+                    this.listenTo(collection, 'add', onAdd);
+                    this.listenTo(collection, 'change', onChange);
+                    this.listenTo(collection, 'remove', onRemove);
 
-                    collection.once('sync', function () {
-                        collection.off('add', onAdd);
-                        collection.off('change', onChange);
-                        collection.off('remove', onRemove);
+                    var self = this;
+                    this.listenTo(collection, 'sync', function () {
+                        // console.dir(collection);
                     });
                 }
                 break;
@@ -114,6 +109,7 @@ define([
             case 'update':
                 break;
             case 'delete':
+                console.log('DELETE')
                 break;
         }
 

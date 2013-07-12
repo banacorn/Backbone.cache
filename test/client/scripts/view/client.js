@@ -40,6 +40,10 @@ define([
                 $('ul', self.$el).append(view.el);
             });
 
+            collection.on('remove', function (model) {
+                model.trigger('destroy', model, collection);
+            });
+
             Backbone.on('refresh', function () {
                 collection.forEach(function (model) {
                     model.trigger('destroy-view');
