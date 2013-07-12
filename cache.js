@@ -3,21 +3,39 @@ define([
     'underscore'
 ], function (Backbone, _) {
     
+    var DEBUG = true;
+
     var storage = {
         set: function (url, data) {
             localStorage[url] = JSON.stringify(data);
+            if (DEBUG) Backbone.trigger('cache:set', data);
         },
         get: function (url) {
             var data = localStorage[url];
             return data ? JSON.parse(localStorage[url]) : undefined;
         },
-        sadd: function (url, data) {
-            var stored = Storage.get(url) || [];
-            stored.push(data);
-            Storage.set(url, _.uniq(stored));
-        },
         del: function (url) {
             delete localStorage[url];
+        },
+        getCollection: function (url) {
+
+        },
+        getItem: function (url) {
+
+        },
+        setItem: function (url, data) {
+            var anchor = url.lastIndexOf('/');
+            var root = url.substr(0, anchor);
+            var id = parseInt(url.substr(anchor + 1), 10);
+            storage.set(url, data);
+            stored = localStorage[root] && JSON.parse(localStorage[root]) || [];
+            if (!_.contains(stored, id)) {
+                stored.push(id);
+                localStorage[root] = JSON.stringify(stored);
+            }
+        },
+        delItem: function (url) {
+
         }
     };
 
@@ -25,9 +43,16 @@ define([
     Backbone.remoteSync = Backbone.sync;
 
     // // modified Backbone.Sync
-    Backbone.sync = function (method, model, options) {
+    Backbone.sync = function (method, object, options) {
 
-        var type = (model instanceof Backbone.Collection) ? 'collection' : 'model';
+        var url = (typeof object.url === 'function') ? object.url() : object.url;
+        if (object instanceof Backbone.Collection) {
+            var type = 'collection';
+            var collection = object;
+        } else {
+            var type = 'model';
+            var model = object;
+        }
         console.log(method, type);
 
         // localStorage support
@@ -41,7 +66,16 @@ define([
                 if (type == 'model') {
 
                 } else {
-                    
+                    collection.on('add', function (model) {
+                        storage.setItem(model.url(), model.attributes);
+                        // console.log(model.url(), model.attributes)
+                        // collection.off('sync')
+                    });
+                    collection.on('sync', function (model) {
+                        collection.off('add');
+                        collection.off('sync');
+                    });
+                    // storage.set
                 }
                 break;
             case 'create':

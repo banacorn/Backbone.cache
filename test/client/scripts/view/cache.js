@@ -18,12 +18,18 @@ define([
         id: 'cache',
         initialize: function () {
 
+            var $el = this.$el;
+
             Backbone.on('trash', function () {
                 localStorage.clear();
             });
 
             Backbone.on('cache:set', function (data) {
-                
+                var model = new DataModel(data);
+                var view = new DataView({
+                    model: model
+                });
+                $('ul', $el).append(view.el);
             });
 
             this.render();
