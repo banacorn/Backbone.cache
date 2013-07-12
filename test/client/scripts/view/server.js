@@ -29,7 +29,7 @@ define([
                     var dataView = new DataView({
                         model: dataModel,
                         socket: socket,
-                        onServer: true
+                        type: 'server'
                     });
                     $('ul', $el).append(dataView.el);
                 });
@@ -40,7 +40,7 @@ define([
                 var dataView = new DataView({
                     model: dataModel,
                     socket: socket,
-                    onServer: true
+                    type: 'server'
                 });
                 $('ul', $el).append(dataView.el);
             });

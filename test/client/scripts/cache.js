@@ -28,7 +28,6 @@ define([
     Backbone.sync = function (method, model, options) {
 
         var type = (model instanceof Backbone.Collection) ? 'collection' : 'model';
-
         console.log(method, type);
 
         // localStorage support

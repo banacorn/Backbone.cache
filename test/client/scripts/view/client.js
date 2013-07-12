@@ -40,19 +40,17 @@ define([
             });
 
             collection.on('add', function (model) {
-                Backbone.trigger('collection:add');
                 var view = new DataView({
+                    type: 'client',
                     model: model
                 });
                 $('ul', self.$el).append(view.el);
             });
-            collection.on('remove', function (model) {
-                Backbone.trigger('collection:remove');
-            });
 
-            collection.on('change', function (model) {
-                Backbone.trigger('collection:change');
-            });
+            collection.on('all', function (event) {
+                console.groupCollapsed(event);
+                console.groupEnd(event);
+            })
         },
 
         render: function () {

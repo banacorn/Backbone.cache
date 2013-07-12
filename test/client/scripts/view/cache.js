@@ -22,6 +22,10 @@ define([
                 localStorage.clear();
             });
 
+            Backbone.on('cache:set', function (data) {
+                
+            });
+
             this.render();
         },
 

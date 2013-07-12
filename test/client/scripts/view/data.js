@@ -27,7 +27,15 @@ define([
                 })
                 .listenTo(this.model, 'change', function () {
                     self.render();
-                });
+                })
+            if (this.options.type === 'client') {
+                this.listenTo(this.model, 'all', function (event) {
+                    console.groupCollapsed('[' + event + ']');
+                    console.groupEnd('[' + event + ']');
+                })
+            }
+
+
         },
 
         render: function () {
@@ -36,7 +44,7 @@ define([
         },
 
         delete: function () {
-            if (this.options.onServer)
+            if (this.options.type === 'server')
                 this.options.socket.emit('remove', this.model.id);
             else
                 this.model.destroy();
@@ -48,7 +56,7 @@ define([
         },
 
         modify: function () {
-            if (this.options.onServer)
+            if (this.options.type === 'server')
                 this.options.socket.emit('modify', this.model.id);
             this.model.set('name', this.model.get('name') + '+');
         //     var name = $('.data-name', this.$el).text();
