@@ -49,6 +49,7 @@ define([
                     this.model.destroy();
                     break;
                 case 'cache':
+                    Backbone.trigger('cache:delete', this.model.attributes.id);
                     this.trigger('destroy');
                     // localStorage dirty hack here
                     localStorage['/data'] = JSON.stringify(_.without(JSON.parse(localStorage['/data']), this.model.attributes.id));

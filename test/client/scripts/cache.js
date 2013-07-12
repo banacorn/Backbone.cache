@@ -72,9 +72,7 @@ define([
                     collection.on('add', setItem);
                     collection.on('sync', function (model) {
                         collection.off('add', setItem);
-                    //     collection.off('sync');
                     });
-                    // storage.set
                 }
                 break;
             case 'create':

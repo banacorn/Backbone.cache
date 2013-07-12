@@ -22,7 +22,6 @@ define([
             var collection = this.collection = new DataCollection;
 
             collection.on('add', function (model) {
-                console.log(model);
                 var view = new DataView({
                     model: model,
                     type: 'cache'    
@@ -36,6 +35,12 @@ define([
 
             Backbone.on('cache:set', function (data) {
                 collection.add(data);
+            });
+
+            Backbone.on('cache:delete', function (id) {
+                var model = collection.get(id);
+                collection.remove(model);
+                console.log(collection.length);
             });
             this.render();
         },
