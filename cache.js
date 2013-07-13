@@ -7,11 +7,11 @@ define([
 
     var split = function (url) {
         var anchor = url.lastIndexOf('/');
-        var root = url.substr(0, anchor);
+        var indiceKey = ':' + url.substr(0, anchor);
         var id = parseInt(url.substr(anchor + 1), 10);
 
         return {
-            root: root,
+            indiceKey: indiceKey,
             id: id
         };
     }
@@ -30,28 +30,29 @@ define([
             if (DEBUG) Backbone.trigger('cache:delete', split(url).id);
         },
         getCollection: function (url) {
-            var ids = localStorage[url] && JSON.parse(localStorage[url]) || [];
-            return ids.map(function (id) {
+            var indiceKey = ':' + url;
+            var indice = localStorage[indiceKey] && JSON.parse(localStorage[indiceKey]) || [];
+            return indice.map(function (id) {
                 return JSON.parse(localStorage[url + '/' + id]);
             });
         },
         setItem: function (url, data) {
             var splited = split(url);
             var id = splited.id;
-            var root = splited.root;
+            var indiceKey = splited.indiceKey;
             storage.set(url, data);
-            stored = localStorage[root] && JSON.parse(localStorage[root]) || [];
-            if (!_.contains(stored, id)) {
-                stored.push(id);
-                localStorage[root] = JSON.stringify(stored);
+            indice = localStorage[indiceKey] && JSON.parse(localStorage[indiceKey]) || [];
+            if (!_.contains(indice, id)) {
+                indice.push(id);
+                localStorage[indiceKey] = JSON.stringify(indice);
             }
         },
         deleteItem: function (url) {
             var splited = split(url);
             var id = splited.id;
-            var root = splited.root;
-            if (localStorage[root] !== undefined)
-                localStorage[root] = JSON.stringify(_.without(JSON.parse(localStorage[root]), id))            
+            var indiceKey = splited.indiceKey;
+            if (localStorage[indiceKey] !== undefined)
+                localStorage[indiceKey] = JSON.stringify(_.without(JSON.parse(localStorage[indiceKey]), id))            
             storage.delete(url);
         }
     };
@@ -106,6 +107,7 @@ define([
                 }
                 break;
             case 'create':
+                storage.
                 break;
             case 'update':
                 break;
