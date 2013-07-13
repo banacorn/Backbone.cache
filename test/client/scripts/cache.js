@@ -81,25 +81,42 @@ define([
 
         switch (method) {
             case 'read':
-                collection.add(storage.getCollection(url));
+                if (type === 'model') {
+                    model.set(storage.getItem(url));
 
-                var onAdd = function (model) {
-                    storage.setItem(model.url(), model.attributes);
-                };
-                var onChange = function (model) {
-                    storage.setItem(model.url(), model.attributes);  
-                };
-                var onRemove = function (model, c, options) {
-                    storage.deleteItem(url + '/' + model.id);  
-                };
-                this.listenTo(collection, 'add', onAdd);
-                this.listenTo(collection, 'change', onChange);
-                this.listenTo(collection, 'remove', onRemove);
+                    var onChange = function (model) {
+                        storage.setItem(model.url(), model.attributes);  
+                    };
 
-                var self = this;
-                this.listenTo(collection, 'sync', function () {
-                    self.stopListening();
-                });
+                    this.listenTo(model, 'change', onChange);
+
+                    var self = this;
+                    this.listenTo(collection, 'sync', function () {
+                        self.stopListening();
+                    });
+
+                } else {
+                    collection.add(storage.getCollection(url));
+
+                    var onAdd = function (model) {
+                        storage.setItem(model.url(), model.attributes);
+                    };
+                    var onChange = function (model) {
+                        storage.setItem(model.url(), model.attributes);  
+                    };
+                    var onRemove = function (model, c, options) {
+                        storage.deleteItem(url + '/' + model.id);  
+                    };
+                    this.listenTo(collection, 'add', onAdd);
+                    this.listenTo(collection, 'change', onChange);
+                    this.listenTo(collection, 'remove', onRemove);
+
+                    var self = this;
+                    this.listenTo(collection, 'sync', function () {
+                        self.stopListening();
+                    });
+                    
+                }
                 break;
             case 'create':
                 this.listenToOnce(model, 'sync', function () {
@@ -108,7 +125,7 @@ define([
                 break;
             case 'update':
                 storage.setItem(model.url(), model.attributes)
-                
+
                 break;
             case 'delete':
                 storage.deleteItem(url);  
