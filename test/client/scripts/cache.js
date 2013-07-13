@@ -81,29 +81,25 @@ define([
 
         switch (method) {
             case 'read':
-                if (type == 'model') {
+                collection.add(storage.getCollection(url));
 
-                } else {
-                    collection.add(storage.getCollection(url));
+                var onAdd = function (model) {
+                    storage.setItem(model.url(), model.attributes);
+                };
+                var onChange = function (model) {
+                    storage.setItem(model.url(), model.attributes);  
+                };
+                var onRemove = function (model, c, options) {
+                    storage.deleteItem(url + '/' + model.id);  
+                };
+                this.listenTo(collection, 'add', onAdd);
+                this.listenTo(collection, 'change', onChange);
+                this.listenTo(collection, 'remove', onRemove);
 
-                    var onAdd = function (model) {
-                        storage.setItem(model.url(), model.attributes);
-                    };
-                    var onChange = function (model) {
-                        storage.setItem(model.url(), model.attributes);  
-                    };
-                    var onRemove = function (model, c, options) {
-                        storage.deleteItem(url + '/' + model.id);  
-                    };
-                    this.listenTo(collection, 'add', onAdd);
-                    this.listenTo(collection, 'change', onChange);
-                    this.listenTo(collection, 'remove', onRemove);
-
-                    var self = this;
-                    this.listenTo(collection, 'sync', function () {
-                        self.stopListening();
-                    });
-                }
+                var self = this;
+                this.listenTo(collection, 'sync', function () {
+                    self.stopListening();
+                });
                 break;
             case 'create':
                 // storage.setItem()
