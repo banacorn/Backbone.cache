@@ -102,12 +102,13 @@ define([
                 });
                 break;
             case 'create':
-                // storage.setItem()
                 this.listenToOnce(model, 'sync', function () {
                     storage.setItem(model.url(), model.attributes)
                 })
                 break;
             case 'update':
+                storage.setItem(model.url(), model.attributes)
+                
                 break;
             case 'delete':
                 storage.deleteItem(url);  
