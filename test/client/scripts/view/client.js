@@ -1,16 +1,16 @@
 define([
     'jquery',
     'backbone',
-    'hogan',
+    // 'hogan',
     '../model/data',
     '../collection/data',
     '../view/data',
     // '../view/simulationItem',
     'text!../../template/slot.html',
-], function ($, Backbone, Hogan, DataModel, DataCollection, DataView, $$slot) {
+], function ($, Backbone, DataModel, DataCollection, DataView, $$slot) {
 
-    var ClientView = Backbone.View.extend({
-        template: Hogan.compile($$slot),
+    var ClientView = Backbone.V.extend({
+        template: $$slot,
         events: {
             'click #add-client-data': 'add'
         },
@@ -19,7 +19,10 @@ define([
         initialize: function () {
             var collection = this.collection = new DataCollection;
             var self = this;
-            this.render();
+            this.render({
+                name: 'client',
+                add: true
+            });
 
             Backbone.on('fetch', function () {
                 collection.fetch();
@@ -55,15 +58,7 @@ define([
             collection.on('all', function (event) {
                 console.groupCollapsed(event);
                 console.groupEnd(event);
-            })
-        },
-
-        render: function () {
-            this.$el.html(this.template.render({
-                name: 'client',
-                add: true
-            }));
-            return this;    
+            });
         },
 
         add: function () {

@@ -1,17 +1,16 @@
 define([
     'jquery',
     'backbone',
-    'hogan',
     '../model/data',
     '../collection/data',
     '../view/data',
     // '../collection/simulation',
     // '../view/simulationItem',
     'text!../../template/slot.html',
-], function ($, Backbone, Hogan, DataModel, DataCollection, DataView, $$slot) {
+], function ($, Backbone, DataModel, DataCollection, DataView, $$slot) {
 
-    var ServerView = Backbone.View.extend({
-        template: Hogan.compile($$slot),
+    var ServerView = Backbone.V.extend({
+        template: $$slot,
         events: {
             'click #add-server-data': 'add'
         },
@@ -21,7 +20,10 @@ define([
             var socket = this.options.socket;
             var $el = this.$el;
             var collection = this.collection = new DataCollection;
-            this.render();
+            this.render({
+                name: 'server',
+                add: 'true'
+            });
             socket.on('get all', function (data) {
                 data.forEach(function (model) {
                     var dataModel = new DataModel(model);
@@ -58,14 +60,6 @@ define([
                 }
             });
             socket.emit('get all');
-        },
-
-        render: function () {
-            this.$el.html(this.template.render({
-                name: 'server',
-                add: true
-            }));
-            return this;    
         },
 
         add: function () {

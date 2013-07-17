@@ -71,7 +71,6 @@ define([
             var type = 'model';
             var model = object;
         }
-        console.log(method, type);
 
         // localStorage support
         if (!localStorage) {

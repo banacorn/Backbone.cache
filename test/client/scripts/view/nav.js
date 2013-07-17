@@ -1,15 +1,14 @@
 define([
     'jquery',
     'backbone',
-    'hogan',
     '../model/data',
     '../collection/data',
     '../view/data',
     'text!../../template/nav.html',
-], function ($, Backbone, Hogan, DataModel, DataCollection, DataView, $$nav) {
+], function ($, Backbone, DataModel, DataCollection, DataView, $$nav) {
 
-    var NavView = Backbone.View.extend({
-        template: Hogan.compile($$nav),
+    var NavView = Backbone.V.extend({
+        template: $$nav,
         events: {
             'click #fetch': 'fetch',
             'click #sync': 'sync',
@@ -18,11 +17,6 @@ define([
         tagName: 'nav',
         initialize: function () {
             this.render();
-        },
-
-        render: function () {
-            this.$el.html(this.template.render());
-            return this;    
         },
 
         fetch: function () {

@@ -1,13 +1,11 @@
 define([
     'jquery',
     'backbone',
-    'hogan',
     '../model/data',
     'text!../../template/data.html',
-], function ($, Backbone, Hogan, DataModel, $$data) {
-
-    var DataView = Backbone.View.extend({
-        template: Hogan.compile($$data),
+], function ($, Backbone, DataModel, $$data) {
+    var DataView = Backbone.V.extend({
+        template: $$data,
         tagName: 'li',
         className: 'data',
 
@@ -20,7 +18,7 @@ define([
         initialize: function () {
 
             var self = this;
-            this.render();
+            this.renderModel();
             this
                 .listenTo(this.model, 'destroy-view', function () {
                     self.remove();
@@ -29,7 +27,7 @@ define([
                     self.remove();
                 })
                 .listenTo(this.model, 'change', function () {
-                    self.render();
+                    self.renderModel();
                 })
             if (this.options.type === 'client') {
                 this.listenTo(this.model, 'all', function (event) {
@@ -39,11 +37,6 @@ define([
             }
 
 
-        },
-
-        render: function () {
-            this.$el.html(this.template.render(this.model.toJSON()));
-            return this;    
         },
 
         delete: function () {

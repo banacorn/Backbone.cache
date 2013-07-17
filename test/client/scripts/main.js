@@ -8,7 +8,8 @@ require.config({
         backbone    : 'jam/backbone/backbone',
         io          : '/socket.io/socket.io',
         hogan       : 'jam/hogan/hogan',
-        cache       : 'cache'
+        cache       : 'cache',
+        view        : 'view'
     }
 }); 
 
@@ -18,21 +19,19 @@ require([
     'hogan',
     'io',
     'cache',
+    'view',
     'view/nav',
     'view/client',
     'view/cache',
     'view/server'
 ], function (
-    $, Backbone, Hogan, io, Cache,
+    $, Backbone, Hogan, io, Cache, View,
     NavView,
     ClientView,
     CacheView,
     ServerView
 ) {
-
     var socket = io.connect();
-    
-
     var App = Backbone.View.extend({
         initialize: function () {
             var navView = new NavView;

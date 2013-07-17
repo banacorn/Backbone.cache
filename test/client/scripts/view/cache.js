@@ -1,16 +1,14 @@
 define([
     'jquery',
     'backbone',
-    'hogan',
     '../model/data',
     '../collection/data',
     '../view/data',
-    // '../view/simulationItem',
     'text!../../template/slot.html',
-], function ($, Backbone, Hogan, DataModel, DataCollection, DataView, $$slot) {
+], function ($, Backbone, DataModel, DataCollection, DataView, $$slot) {
 
-    var ServerView = Backbone.View.extend({
-        template: Hogan.compile($$slot),
+    var ServerView = Backbone.V.extend({
+        template: $$slot,
         events: {
             'click #add-server-data': 'add',
             'click #trash-cache': 'trash'
@@ -22,7 +20,10 @@ define([
             var $el = this.$el;
             var collection = this.collection = new DataCollection;
 
-            this.render();
+            this.render({
+                name: 'cache',
+                trash: true
+            });
             collection.on('add', function (model) {
                 var view = new DataView({
                     model: model,
@@ -49,14 +50,6 @@ define([
                 var model = collection.get(id);
                 collection.remove(model);
             });
-        },
-
-        render: function () {
-            this.$el.html(this.template.render({
-                name: 'cache',
-                trash: true
-            }));
-            return this;    
         },
 
         trash: function () {
